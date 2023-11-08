@@ -85,20 +85,6 @@ const getApiInfo = async () => {
 
   const pokemonInfo = []
 
-  // const resultsPokes = apiUrl.data.results.map(async el => {
-  //     const pokes = await axios.get(el.url);
-  //     const pokeInfo = pokes.data
-
-  //     return {
-  //         id: pokeInfo.id,
-  //         name: el.name,
-  //         type: pokeInfo.types.map( t => t.type.name),
-  //         img: pokeInfo.sprites.versions["generation-v"]["black-white"].animated
-  //            .front_default,
-  //         strengh: pokeInfo.stats[1].base_stat,
-  //     }
-  // })
-
   for (let i = 0; i < results.length; i++) {
     const pokes = await axios.get(results[i].url);
     const pokeInfo = pokes.data;
@@ -210,6 +196,7 @@ const getPokeInfoxName = async (name) => {
       weight: results.weight,
       height: results.height,
     };
+
     console.log(pokemonInfo);
 
     return pokemonInfo;
@@ -257,7 +244,32 @@ router.get('/types', async (req, res) => {
 
   const allTypes = await Type.findAll();
   return res.send(allTypes);
-})
+});
+
+router.get('/pokemons/:idPokemon', async (req, res) => {
+  const { idPokemon } = req.params
+  
+  let pokemonInfo;
+  if (idPokemon >= 1 && idPokemon <= 898 || idPokemon >= 10001 && idPokemon <= 10220) {
+    const pokemonInfo = await getPokeInfo(idPokemon)
+    
+    return pokemonInfo ?
+    res.status(200).send([pokemonInfo]) :
+    res.status(404).send('Pokemon not found')
+  }
+  
+  const pokemonsTotal = await getDbInfo()
+
+  if (!pokemonInfo && idPokemon) {
+    const pokemonId = pokemonsTotal.filter(el => el.id == idPokemon)
+    
+    return pokemonId.length ?
+    res.status(200).send(pokemonId) :
+    res.status(404).send('Pokemon not found')
+  }
+});
+
+
 
 router.post('/pokemons', async (req, res) => {
   const {
@@ -291,29 +303,7 @@ router.post('/pokemons', async (req, res) => {
 
   pokemonCreated.addType(pokemonTypes)
   return res.send('Pokemon created successfuly')
-})
+});
 
-router.get('/pokemons/:idPokemon', async (req, res) => {
-  const { idPokemon } = req.params
-
-  let pokemonInfo;
-  if (idPokemon >= 1 && idPokemon <= 898 || idPokemon >= 10001 && idPokemon <= 10220) {
-    const pokemonInfo = await getPokeInfo(idPokemon)
-
-    return pokemonInfo ?
-      res.status(200).send([pokemonInfo]) :
-      res.status(404).send('Pokemon not found')
-  }
-
-  const pokemonsTotal = await getDbInfo()
-
-  if (!pokemonInfo && idPokemon) {
-    const pokemonId = pokemonsTotal.filter(el => el.id == idPokemon)
-
-    return pokemonId.length ?
-      res.status(200).send(pokemonId) :
-      res.status(404).send('Pokemon not found')
-  }
-})
 
 module.exports = router;
