@@ -2,6 +2,7 @@ import React from "react";
 import style from "./Card.module.css";
 
 export default function Card({ name, types, image, id, weight, height }) {
+
     let sprite;
     if (id >= 1 && id <= 100) {
         sprite = true;
@@ -33,12 +34,13 @@ export default function Card({ name, types, image, id, weight, height }) {
     return (
         <div
             className={style.card}
-            style={{ backgroundImage: `url(images/typesbkgm/${types[0]}.png)` }}
+            style={{ backgroundImage: `url(images/typesBgCard/${types[0]}.png)` }} // EL DIV TIENE COMO FONDO LA CARD DEL PRIMER TIPO DEL POKEMON EN CUESTION
         >
-            <span className={style.name}>
-                {name.charAt(0).toUpperCase() + name.slice(1)}
+            <span className={style.name} // ESTE SPAN TIENE EL ESTILO DE NOMBRE CON LA PRIMER LETRA DEL NOMBRE EN MAYUS
+            > 
+                {name.charAt(0).toUpperCase() + name.slice(1)} 
             </span>
-            {sprite ? (
+            {sprite ? ( // TERNARIO SI EL POKEMON TIENE ID 1 A 100 HAY SPRITE (GIF) SINO FOTO DEFAULT API
                 <img
                     src={`images/sprites/${id}.gif`}
                     alt="Img not found"
@@ -53,29 +55,31 @@ export default function Card({ name, types, image, id, weight, height }) {
                     className={style.img}
                 />
             )}
-            <span className={`${style.typetitle} ${typesColors[types[0]]}`}>
+            <span className={`${style.typetitle} ${typesColors[types[0]]}` //APLICA AL TEXTO "TYPES" EL ESTILO DE CSS DE TYPESTITLE Y EL COLOR DEPENDE DEL 1ER TIPO DEL POKEMON
+            }> 
                 Types
             </span>
             <div className={style.types}>
-                {types ? (
-                    types.map((el) => {
+                {types ? ( 
+                    types.map((el) => { // Ternario: si hay type se mapea los tipos de pokemon y se muestra el icono de ese/esos tipo/s
                         return (
                             <img
                                 src={`images/types/${el}.png`}
                                 alt="Types"
                                 height="80px"
-                                key={el}
+                                key={el} // proporciona una clave única a cada elemento en la lista
                             />
                         );
                     })
-                ) : (
+                ) : ( 
                     <span>Types not found</span>
                 )}
             </div>
-            <span className={`${style.aboutitle} ${typesColors[types[0]]}`}>
+            <span className={`${style.aboutitle} ${typesColors[types[0]]}` // IGUAL QUE EL SPAN DE TYPES
+            }>
                 About
             </span>
-            <div className={style.about}>
+            <div className={style.about}> 
                 <div style={{ display: "flex", flexDirection: "column" }}>
                     <div style={{ display: "flex", flexDirection: "row" }}>
                         <img src={"images/cards/weight.svg"} alt="Weight Icon" />
@@ -83,7 +87,7 @@ export default function Card({ name, types, image, id, weight, height }) {
                     </div>
                     <span className={style.weight}>Weight</span>
                 </div>
-                <div
+                <div                                        // se arman con estilos el peso y altura del pokemon y se agregan las svg de balanza y regla
                     style={{
                         display: "flex",
                         flexDirection: "column",

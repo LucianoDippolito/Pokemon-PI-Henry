@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
+/* 
+    1: Estilos para Contenedor de Cartas:
+    La clase .cards establece un diseño de cuadrícula para mostrar las cartas de Pokémon. Se utiliza la propiedad grid-template-columns para organizar las cartas en filas y columnas.
+    
+    2:  Estilos para Botones y Controles:
+    Se definen estilos para los botones, selectores y otros controles de filtrado y paginación. Los estilos incluyen colores, tamaños y márgenes para mejorar la apariencia y usabilidad.
+
+    3: Estilos para la Animación de "No Encontrado":
+    Se definen estilos de animación (@keyframes) para la apariencia de la sección "No se encontraron Pokémon". La animación picImage controla la opacidad y la escala de los elementos para lograr un efecto visual agradable. */
+
 .cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -29,25 +39,6 @@
     font-size: 16px;
     font-weight: 500;
 }
-.game{
-    position: absolute;
-    top: 12%;
-    right: 2%;
-    width: 10%;
-}
-
-.game button{
-    width: 100%;
-    padding: 4px;
-    padding-top: 4%;
-    display: flex;
-    justify-content: center;
-    transition: all 0.4s ease;
-}
-.game button:hover{
-    transform: translateY(-4px);
-}
-
 
 .sortfilter{
     display: flex;
@@ -129,5 +120,4 @@ select {
     opacity: 1;
     transform: scale(1) translateY(0);
     }
-  }
-
+}

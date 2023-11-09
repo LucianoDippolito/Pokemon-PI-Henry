@@ -1,17 +1,31 @@
-import React, {useState, useEffect} from 'react' ;
-import { useDispatch, useSelector } from 'react-redux' ;
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getPokemons, filterCreated, orderByNameOrStrengh, getTypes, removeDetail, filterPokemonsByType, reloadPokemons } from '../../actions';
 import { Link } from 'react-router-dom';
 import Card from '../Card/Card';
 import Paginado from '../Paginado/Paginado';
 import Navbar from '../Navbar/Navbar';
-import random from '../../images/random.png';
 import style from './Home.module.css';
-import poke from '../../images/pokebola.png';
-import game from '../../images/game.png'
 
 
-export default function Home(){
+// 1: Importaciones:
+
+// Se importan las funciones y componentes necesarios del paquete react-redux y otros archivos del proyecto.
+
+// 2: State y Hooks:
+
+// Se utiliza el estado local (useState) para controlar varias variables como pokLoaded, orden, currentPage, y otras relacionadas con la paginación.
+// Se utilizan los hooks useEffect para realizar acciones como cargar tipos de Pokémon, cargar Pokémon si no están cargados, y resetear la página actual cuando se actualiza la lista de Pokémon.
+
+// 3: Funciones de Manipulación de Datos:
+
+// Existen funciones como handleClick, handleFilterCreated, handleFilterByType, y handleSort que dispatchan acciones para filtrar y ordenar los Pokémon en función de las selecciones del usuario.
+
+// 4: Renderizado Condicional:
+
+// Dependiendo del estado del componente y los datos disponibles, se muestra una lista de Pokémon paginada, un mensaje de "Cargando..." o un mensaje de "No se encontraron Pokémon".
+
+export default function Home() {
 
     const dispatch = useDispatch()
     const allPokemons = useSelector(state => state.pokemons)
@@ -34,42 +48,40 @@ export default function Home(){
     useEffect(() => {
         dispatch(removeDetail());
         dispatch(getTypes());
-        if(!pokLoaded){
+        if (!pokLoaded) {
             dispatch(getPokemons());
-        }   
+        }
     }, [pokLoaded, dispatch])
 
     useEffect(() => {
         setCurrentPage(1);
-      }, [allPokemons.length,setCurrentPage]);
+    }, [allPokemons.length, setCurrentPage]);
 
-    function handleClick(e){
+    function handleClick(e) {
         e.preventDefault();
         dispatch(reloadPokemons());
     }
 
-    function handleFilterCreated(e){
+    function handleFilterCreated(e) {
         dispatch(filterCreated(e.target.value))
     }
 
-    function handleFilterByType(e){
+    function handleFilterByType(e) {
         dispatch(filterPokemonsByType(e.target.value));
     }
 
-    function handleSort(e){
+    function handleSort(e) {
         e.preventDefault();
         dispatch(orderByNameOrStrengh(e.target.value));
         setCurrentPage(1);
         setOrden(`Ordenado ${e.target.value}`)
     }
 
-    return(
+    return (
         <div className={style.home}>
             <Navbar />
-            
-            <button onClick={e => {handleClick(e)}} className={style.poke}><img src={poke} alt="pokebola" width='20px'/> Reload all</button>
 
-            <Link to='/game' style={{textDecoration: 'none'}} className={style.game}><button className={style.poke}><img src={game} alt="Who's that Pokemon" width='100px'/></button></Link>
+            <button onClick={e => { handleClick(e) }} className={style.poke}><img src={poke} alt="pokebola" width='20px' /> Reload all</button>
 
             <div className={style.sortfilter}>
                 <select onChange={e => handleSort(e)}>
@@ -85,9 +97,9 @@ export default function Home(){
                     <option value="Created">Created</option>
                 </select>
                 <select onChange={e => handleFilterByType(e)}>
-                    <option value="All">all types</option>
+                    <option value="All">All types</option>
                     {
-                        types.map( type => (
+                        types.map(type => (
                             <option value={type.name} key={type.name}>{type.name}</option>
                         ))
                     }
@@ -95,33 +107,33 @@ export default function Home(){
             </div>
             <Paginado
                 pokemonsPerPage={pokemonsPerPage}
-                allPokemons = {allPokemons.length}
+                allPokemons={allPokemons.length}
                 paginado={paginado}
                 page={currentPage}
             />
             <div className={style.cards}>
-            {
-                currentPokemons.length ? 
-                typeof currentPokemons[0] === 'object' ?
-                currentPokemons.map( el => {
-                    return(
-                        <div>
-                            <Link to={"/home/" + el.id} style={{textDecoration:'none'}} key={el.id}>
-                                <Card name={el.name} types={el.types} image={el.img ? el.img : random} id={el.id} weight={el.weight} height={el.height} />
-                            </Link>
+                {
+                    currentPokemons.length ?
+                        typeof currentPokemons[0] === 'object' ?
+                            currentPokemons.map(el => {
+                                return (
+                                    <div>
+                                        <Link to={"/home/" + el.id} style={{ textDecoration: 'none' }} key={el.id}>
+                                            <Card name={el.name} types={el.types} image={el.img ? el.img : random} id={el.id} weight={el.weight} height={el.height} />
+                                        </Link>
+                                    </div>
+                                )
+                            }) :
+                            <div className={style.notfound}>
+                                <img src='images/notfound.png' alt="Pokemon not found" width='200px' />
+                                <span>{currentPokemons[0]} not found</span>
+                            </div>
+                        :
+                        <div className={style.loading}>
+                            <img src='images/loading.gif' alt="Loading.." width='250px' />
+                            <p className={style.loadingtext}>Loading...</p>
                         </div>
-                    )
-                }) :
-                <div className={style.notfound}>
-                    <img src='images/notfound.png'alt="Pokemon not found" width='200px'/>
-                    <span>{currentPokemons[0]} not found</span>
-                </div>
-                :
-                <div className={style.loading}> 
-                    <img src='images/loading.gif'alt="Loading.." width='250px'/>
-                    <p className={style.loadingtext}>Loading...</p>
-                </div>
-            }
+                }
             </div>
         </div>
     )
