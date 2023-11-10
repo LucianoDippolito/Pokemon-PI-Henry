@@ -7,7 +7,6 @@ import Paginado from '../Paginado/Paginado';
 import Navbar from '../Navbar/Navbar';
 import style from './Home.module.css';
 
-
 // 1: Importaciones:
 
 // Se importan las funciones y componentes necesarios del paquete react-redux y otros archivos del proyecto.
@@ -29,10 +28,8 @@ export default function Home() {
 
     const dispatch = useDispatch()
     const allPokemons = useSelector(state => state.pokemons)
-    const all = useSelector(state => state.allPokemons)
     const types = useSelector(state => state.types)
 
-    const [pokLoaded, setPokLoaded] = useState(all.length ? true : false)
     const [orden, setOrden] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [pokemonsPerPage, setPokemonsPerPage] = useState(12)
@@ -48,10 +45,9 @@ export default function Home() {
     useEffect(() => {
         dispatch(removeDetail());
         dispatch(getTypes());
-        if (!pokLoaded) {
-            dispatch(getPokemons());
-        }
-    }, [pokLoaded, dispatch])
+        dispatch(getPokemons());
+
+    }, [])
 
     useEffect(() => {
         setCurrentPage(1);
@@ -81,7 +77,7 @@ export default function Home() {
         <div className={style.home}>
             <Navbar />
 
-            <button onClick={e => { handleClick(e) }} className={style.poke}><img src={poke} alt="pokebola" width='20px' /> Reload all</button>
+            <button onClick={e => { handleClick(e) }} className={style.poke}> Reload all</button>
 
             <div className={style.sortfilter}>
                 <select onChange={e => handleSort(e)}>
@@ -114,15 +110,15 @@ export default function Home() {
             <div className={style.cards}>
                 {
                     currentPokemons.length ?
-                        typeof currentPokemons[0] === 'object' ?
-                            currentPokemons.map(el => {
-                                return (
-                                    <div>
-                                        <Link to={"/home/" + el.id} style={{ textDecoration: 'none' }} key={el.id}>
-                                            <Card name={el.name} types={el.types} image={el.img ? el.img : random} id={el.id} weight={el.weight} height={el.height} />
-                                        </Link>
-                                    </div>
-                                )
+                    typeof currentPokemons[0] === 'object' ?
+                    currentPokemons.map(el => {
+                        return (
+                                <div>
+                                    <Link to={"/home/" + el.id} style={{ textDecoration: 'none' }} key={el.id}>
+                                        <Card name={el.name} types={el.types} image={el.img ? el.img : random} id={el.id} weight={el.weight} height={el.height} key={el.id} />
+                                    </Link>
+                                </div>
+                            )
                             }) :
                             <div className={style.notfound}>
                                 <img src='images/notfound.png' alt="Pokemon not found" width='200px' />

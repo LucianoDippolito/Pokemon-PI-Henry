@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Switch} from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LandingPage from "./components/LandingPage/LandingPage"
 import Home from './components/Home/Home';
 import PokemonCreate from './components/PokemonCreate/PokemonCreate'
@@ -11,10 +11,10 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route exact path="/" component={LandingPage}/>
-          <Route exact path="/home" component={Home}/>
-          <Route path="/pokemons" component={PokemonCreate}/>
-          <Route exact path="/home/:id" component={Detail}/>
+          <Route exact path="/" element={<LandingPage/>}/>
+          <Route exact path="/home" element={<Home/>}/>
+          <Route path="/pokemons" element={<PokemonCreate/>}/>
+          <Route exact path="/home/:id" element={<Detail/>}/>
         </Routes>
       </div>
     </BrowserRouter>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetail } from '../../actions';
 import random from '../../images/random.png'
@@ -12,23 +12,14 @@ import speed from '../../images/cards/run.png'
 import happiness from '../../images/cards/happy.png'
 import capture from '../../images/cards/pokeball.png'
 
-import charizard from '../../images/ssbu/charizard.png';
-import pikachu from '../../images/ssbu/pikachu.png';
-import pichu from '../../images/ssbu/pichu.png';
-import mewtwo from '../../images/ssbu/mewtwo.png';
-import squirtle from '../../images/ssbu/squirtle.png';
-import ivysaur from '../../images/ssbu/ivysaur.png';
-import jigglypuff from '../../images/ssbu/jigglypuff.png';
-import lucario from '../../images/ssbu/lucario.png';
-
 
 export default function Detail (props){
-    
+    const params = useParams();
     const dispatch = useDispatch();
 
     useEffect( () => {
-        dispatch(getDetail(props.match.params.id));
-    },[dispatch])
+        dispatch(getDetail(params.id));
+    },[])
 
     const myPokemon = useSelector( state => state.detail)
 
@@ -39,17 +30,6 @@ export default function Detail (props){
             setSection(2)
         }
     }, [myPokemon, setSection]);
-
-    const pokemonssbu = {
-        charizard, 
-        pikachu,
-        pichu, 
-        mewtwo, 
-        squirtle, 
-        ivysaur, 
-        jigglypuff, 
-        lucario
-    }
 
     function handleSection(e){
         if(e.target.innerHTML === 'About' && !myPokemon[0].createdInDb){
@@ -65,7 +45,7 @@ export default function Detail (props){
     return(
         <div>
             {
-                myPokemon.length && myPokemon[0].id == props.match.params.id ? 
+                myPokemon.length && myPokemon[0].id == params.id ? 
                 <div className={style.grid} style={{maxHeight:'100vh'}}> 
                 <Link to='/home' className={style.home}><button className={style.homebtn}>Back</button></Link>
                     <div className={style.encabezado}> 
@@ -78,12 +58,9 @@ export default function Detail (props){
                         <button onClick={e => handleSection(e)} className={section === 3 ? style.active : style.noactive}>Evolution</button><span className={style.linevol} style={section === 3 ? {opacity:'100%'} : {opacity:'0%'}}></span>
                     </nav>
                     <div className={style.visual}>
-                        {
-                            pokemonssbu.hasOwnProperty(myPokemon[0].name) ?
-                            <img src={pokemonssbu[myPokemon[0].name]} className={style.img}/> :
-                            <img src={myPokemon[0].img ? myPokemon[0].img : random} className={style.img}/>
-                        }
-                        
+                            
+                        <img src={myPokemon[0].img ? myPokemon[0].img : random} className={style.img}/>                        
+
                         <div className={style.types}>
                             {
                                 myPokemon[0].types ? myPokemon[0].types.map( el => {

@@ -2,27 +2,45 @@ import axios from 'axios'
 
 export function getPokemons() { // Hace una solicitud GET a http://localhost:3001/pokemons para obtener la lista de todos los Pokémon.
     return async function (dispatch) {
-        var json = await axios.get("http://localhost:3001/pokemons", {
+        try {
+            const {data} = await axios("http://localhost:3001/pokemons")
 
-        })
-
-        return dispatch({ // Despacha una acción con el tipo GET_POKEMONS y los datos de los Pokémon como carga útil.
-            type: "GET_POKEMONS",
-            payload: json.data
-        })
+            return dispatch({ // Despacha una acción con el tipo GET_POKEMONS y los datos de los Pokémon como carga útil.
+                type: "GET_POKEMONS",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
+// export const functionAllGames =()=>{
+//     const URL = 'http://localhost:3001/videogames'
+//     return async (dispatch)=>{
+//         try {
+//             const {data} = await axios(URL)
+//             return dispatch({
+//                 type: ADD_ALL_GAMES,
+//                 payload:data
+//             })
+//         } catch (error) {
+//             console.error('Error al buscar los juegos:', error)
+//         }
+//     }
+// }
 
 export function getTypes() { // Hace una solicitud GET a http://localhost:3001/types para obtener la lista de tipos de Pokémon.
     return async function (dispatch) {
-        var info = await axios.get("http://localhost:3001/types", {
-
-        })
-
-        return dispatch({ // Despacha una acción con el tipo GET_TYPES y los datos de los tipos como carga útil.
-            type: "GET_TYPES",
-            payload: info.data
-        })
+        try {
+            const info = await axios("http://localhost:3001/types")
+    
+            return dispatch({ // Despacha una acción con el tipo GET_TYPES y los datos de los tipos como carga útil.
+                type: "GET_TYPES",
+                payload: info.data
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
