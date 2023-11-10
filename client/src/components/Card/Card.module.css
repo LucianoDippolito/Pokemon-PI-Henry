@@ -20,8 +20,6 @@
 } 
 
 .name{
-  grid-column: x0 / x1;
-  grid-row: y0/y1;
   font-family: 'Poppins', sans-serif;
   font-size: 24px;
   font-weight: bolder;
@@ -70,8 +68,6 @@
   justify-content: center;
 }
 
-/* About - Stats */
-
 .pokweight{
   font-family: 'Poppins', sans-serif;
   font-size: 12px;
@@ -101,8 +97,6 @@
   font-weight: 500;
   color: rgb(51, 51, 51);
 }
-
-/* Colores de Titulos */
 
 .fire{
   color:#F57D31

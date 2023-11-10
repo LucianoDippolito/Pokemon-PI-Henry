@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-export function getPokemons() { // Hace una solicitud GET a http://localhost:3001/pokemons para obtener la lista de todos los Pokémon.
+export function getPokemons() { 
     return async function (dispatch) {
         try {
             const {data} = await axios("http://localhost:3001/pokemons")
 
-            return dispatch({ // Despacha una acción con el tipo GET_POKEMONS y los datos de los Pokémon como carga útil.
+            return dispatch({ 
                 type: "GET_POKEMONS",
                 payload: data
             })
@@ -15,12 +15,12 @@ export function getPokemons() { // Hace una solicitud GET a http://localhost:300
     }
 }
 
-export function getTypes() { // Hace una solicitud GET a http://localhost:3001/types para obtener la lista de tipos de Pokémon.
+export function getTypes() { 
     return async function (dispatch) {
         try {
             const info = await axios("http://localhost:3001/types")
     
-            return dispatch({ // Despacha una acción con el tipo GET_TYPES y los datos de los tipos como carga útil.
+            return dispatch({ 
                 type: "GET_TYPES",
                 payload: info.data
             })
@@ -30,15 +30,15 @@ export function getTypes() { // Hace una solicitud GET a http://localhost:3001/t
     }
 }
 
-export function reloadPokemons() { // Crea una acción con el tipo RELOAD_POKEMONS. Acción para recargar la lista de Pokémon, aunque el comportamiento específico no está claro.
+export function reloadPokemons() { 
     return {
         type: "RELOAD_POKEMONS",
     }
 }
 
 
-export function postPokemon(payload) { // Hace una solicitud POST a http://localhost:3001/pokemons con los datos del Pokémon proporcionados en el parámetro payload.
-    return async function (dispatch) { // Despacha una acción con el tipo POST_POKEMON y los datos del nuevo Pokémon como carga útil.
+export function postPokemon(payload) { 
+    return async function (dispatch) { 
         const pokemon = await axios.post("http://localhost:3001/pokemons", payload)
 
         return {
@@ -48,15 +48,15 @@ export function postPokemon(payload) { // Hace una solicitud POST a http://local
     }
 }
 
-export function getPokemonName(name) { // Hace una solicitud GET a http://localhost:3001/pokemons?name={name} para obtener los detalles del Pokémon.
+export function getPokemonName(name) { 
     return async function (dispatch) {
         try {
 
-            return dispatch({ // Despacha una acción con el tipo GET_POKEMON_NAME y los datos del Pokémon buscado como carga útil. 
+            return dispatch({ 
                 type: "GET_POKEMON_NAME",
                 payload: name
             })
-        } catch (error) { // Si no se encuentra el Pokémon, devuelve un array con el nombre "Pokemon".
+        } catch (error) { 
             console.log(error)
             return dispatch({
                 type: "GET_POKEMON_NAME",
@@ -66,12 +66,12 @@ export function getPokemonName(name) { // Hace una solicitud GET a http://localh
     }
 }
 
-export function getDetail(id) { // Hace una solicitud GET a http://localhost:3001/pokemons/{id} para obtener los detalles del Pokémon.
+export function getDetail(id) { 
     return async function (dispatch) {
         try {
             let json = await axios.get("http://localhost:3001/pokemons/" + id);
 
-            return dispatch({ // Despacha una acción con el tipo GET_DETAILS y los datos del Pokémon detallado como carga útil.
+            return dispatch({ 
                 type: "GET_DETAILS",
                 payload: json.data
             })
@@ -81,20 +81,20 @@ export function getDetail(id) { // Hace una solicitud GET a http://localhost:300
     }
 }
 
-export function removeDetail() { // Crea una acción con el tipo REMOVE_DETAILS. Parece una acción para eliminar los detalles del Pokémon, aunque el comportamiento específico no está claro.
+export function removeDetail() { 
     return {
         type: "REMOVE_DETAILS",
     }
 }
 
-export function filterPokemonsByType(payload) { // Crea una acción con el tipo FILTER_BY_TYPES y el tipo de Pokémon proporcionado en el parámetro payload.
+export function filterPokemonsByType(payload) { 
     return {
         type: "FILTER_BY_TYPES",
         payload
     }
 }
 
-export function filterCreated(payload) { // Crea una acción con el tipo FILTER_CREATED y el filtro proporcionado en el parámetro payload.
+export function filterCreated(payload) { 
 
     return {
         type: "FILTER_CREATED",
@@ -102,7 +102,7 @@ export function filterCreated(payload) { // Crea una acción con el tipo FILTER_
     }
 }
 
-export function orderByNameOrStrengh(payload) { // Crea una acción con el tipo ORDER_BY_NAME_OR_STRENGH y el criterio de orden proporcionado en el parámetro payload.
+export function orderByNameOrStrengh(payload) { 
 
     return {
         type: "ORDER_BY_NAME_OR_STRENGH",

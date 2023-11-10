@@ -44,32 +44,23 @@ export default function Detail(props) {
             {
                 myPokemon.length && myPokemon[0].id == params.id ?
                     <div className={style.grid} style={{ maxHeight: '100vh' }}>
-                        <Link to='/home' className={style.home}><button className={style.homebtn}>Back</button></Link>
+                        <Link to='/home' className={style.home}><button className={style.homebtn}>Home</button></Link>
                         <div className={style.encabezado}>
                             <h1 className={style.name}>{myPokemon[0].name.charAt(0).toUpperCase() + myPokemon[0].name.slice(1)}</h1>
                             <p>#{myPokemon[0].id}</p>
                         </div>
                         <nav className={style.sections} style={{ position: 'relative' }}>
-                            <button onClick={e => handleSection(e)} className={section === 1}>About</button><span className={style.lineab} style={section === 1 ? { opacity: '100%' } : { opacity: '0%' }}></span>
-                            <button onClick={e => handleSection(e)} className={section === 2}>Base Stats</button><span className={style.linestat} style={section === 2 ? { opacity: '100%' } : { opacity: '0%' }}></span>
+                            <button onClick={e => handleSection(e)} className={section === 1}>About</button><span className={style.lineab}></span>
+                            <button onClick={e => handleSection(e)} className={section === 2}>Base Stats</button><span className={style.linestat}></span>
                         </nav>
                         <div className={style.visual}>
-
                             <img src={myPokemon[0].img ? myPokemon[0].img : random} className={style.img} />
-
                             <div className={style.types}>
-                                {
-                                    myPokemon[0].types ? myPokemon[0].types.map(el => {
-                                        return (
-                                            <img src={`../../images/types/${el}.png`} alt="Types" height="160px" key={el} />
-                                        )
-                                    }
-                                    ) :
-                                        <span>Types not found</span>
+                                {myPokemon[0].types ? myPokemon[0].types.map(el => {return (<img src={`../../images/types/${el}.png`} alt="Types" height="160px" key={el} />)}) 
+                                    :<span>Types not found</span>
                                 }
                             </div>
                         </div>
-
                         <section className={section === 1 ? style.show : style.hide}>
                             {
                                 !myPokemon[0].createdInDb ?
@@ -88,13 +79,13 @@ export default function Detail(props) {
                                                     <div style={{ display: 'flex', alignItems: 'flex-start' }} className={style.animabil}>
                                                         <span>Abilities</span>
                                                         <div className={style.apinfo}>
-                                                            {
-                                                                myPokemon[0].abilities ? myPokemon[0].abilities.map(el => {
+                                                            {myPokemon[0].abilities 
+                                                                ? myPokemon[0].abilities.map(el => {
                                                                     return (
                                                                         <span key={el} style={{ width: '15vw', display: 'flex', justifyContent: 'flex-start' }}>{el.replace('-', ' ')}</span>
                                                                     )
-                                                                }) :
-                                                                    <span>This pokemon has no abilities</span>
+                                                                }) 
+                                                                : <span>This pokemon has no abilities</span>
                                                             }
                                                         </div>
                                                     </div>
@@ -161,8 +152,12 @@ export default function Detail(props) {
                                             </div>
                                         </div>
 
-                                    </div> :
-                                    <div></div>
+                                    </div> 
+                                    :
+                                    <div className={style.loading}>
+                                        <img src={loading} alt="Loading.." width='250px' />
+                                        <p className={style.loadingtext}>Loading...</p>
+                                    </div>
                             }
 
                         </section>
@@ -191,52 +186,10 @@ export default function Detail(props) {
                                     <div className={style.info}>
                                         <span><img src={speed} alt='Speed' height='16px' width='16px' /> Speed</span>
                                     </div>
-                                    <div className={style.progress} style={{ animationDelay: '0.3s' }}><span style={{ width: myPokemon[0].speed > 100 ? '100%' : myPokemon[0].speed + '%' }} per={`${myPokemon[0].speed}`} className={style.speed}></span></div>
-                                </div>
-
-                                <div style={{ display: 'flex' }} className={style.moreinfo}>
-                                    <div className={style.about}>
-                                        <div>
-                                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                                <img src={'../../images/cards/weight.svg'} alt='Weight Icon' />
-                                                <span className={style.pokweight}>{myPokemon[0].weight / 10}kg</span>
-                                            </div>
-                                            <span className={style.weight}>Weight</span>
-                                        </div>
-                                        <div style={{ paddingTop: '4%' }}>
-                                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                                <img src={'../../images/cards/height.svg'} alt='Height Icon' />
-                                                <span className={style.pokheight}>{myPokemon[0].height / 10}m</span>
-                                            </div>
-                                            <span className={style.height}>Height</span>
-                                        </div>
-                                    </div>
-                                    {
-                                        !myPokemon[0].createdInDb ?
-                                            <div className={style.aboutwo}>
-                                                <div>
-                                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                                        <img src={happiness} alt='Happiness' height='22px' width='22px' />
-                                                        <span className={style.pokweight}>{myPokemon[0].happiness}</span>
-                                                    </div>
-                                                    <span className={style.weight}>Happiness</span>
-                                                </div>
-                                                <div style={{ paddingTop: '4%' }}>
-                                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                                        <img src={capture} alt='Capture' height='22px' width='22px' />
-                                                        <span className={style.pokheight}>{myPokemon[0].capture}</span>
-                                                    </div>
-                                                    <span className={style.height}>Capture Rate</span>
-                                                </div>
-                                            </div> :
-                                            <div></div>
-                                    }
-
+                                    <div className={style.progress} style={{ animationDelay: '0s' }}><span style={{ width: myPokemon[0].speed > 100 ? '100%' : myPokemon[0].speed + '%' }} per={`${myPokemon[0].speed}`} className={style.speed}></span></div>
                                 </div>
                             </div>
                         </section>
-
-
                     </div> :
                     <div className={style.loading}>
                         <img src={loading} alt="Loading.." width='250px' />

@@ -21,5 +21,4 @@ export default function Paginado({ pokemonsPerPage, allPokemons, paginado, page 
             </ul>
         </nav>
     )
-
 }

@@ -8,23 +8,6 @@ import Navbar from '../Navbar/Navbar';
 import style from './Home.module.css';
 import random from '../../images/random.png'
 
-// 1: Importaciones:
-
-// Se importan las funciones y componentes necesarios del paquete react-redux y otros archivos del proyecto.
-
-// 2: State y Hooks:
-
-// Se utiliza el estado local (useState) para controlar varias variables como pokLoaded, orden, currentPage, y otras relacionadas con la paginación.
-// Se utilizan los hooks useEffect para realizar acciones como cargar tipos de Pokémon, cargar Pokémon si no están cargados, y resetear la página actual cuando se actualiza la lista de Pokémon.
-
-// 3: Funciones de Manipulación de Datos:
-
-// Existen funciones como handleClick, handleFilterCreated, handleFilterByType, y handleSort que dispatchan acciones para filtrar y ordenar los Pokémon en función de las selecciones del usuario.
-
-// 4: Renderizado Condicional:
-
-// Dependiendo del estado del componente y los datos disponibles, se muestra una lista de Pokémon paginada, un mensaje de "Cargando..." o un mensaje de "No se encontraron Pokémon".
-
 export default function Home() {
 
     const dispatch = useDispatch()
@@ -41,7 +24,6 @@ export default function Home() {
     const paginado = (pageNumber) => {
         setCurrentPage(pageNumber)
     }
-
 
     useEffect(() => {
         dispatch(removeDetail());
@@ -77,7 +59,7 @@ export default function Home() {
     return (
         <div className={style.home}>
             <Navbar />
-
+            
             <button onClick={e => { handleClick(e) }} className={style.poke}> Reload all</button>
 
             <div className={style.sortfilter}>

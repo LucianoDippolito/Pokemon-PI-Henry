@@ -4,14 +4,14 @@ const { Pokemon, Type } = require('../db.js');
 
 const router = Router();
 
-//----------------------------------FUNCIONES AUXILIARES----------------------------------------------------------------------------
+//---------------------------------------FUNCIONES AUXILIARES----------------------------------------------------------------------------
 
 const random = (arrlength) => {
     let number = Math.floor(Math.random() * arrlength);
     return number
 }
 
-const arreglo = (arr) => {
+const arreglo = (arr) => {  // 3 random y obtiene o bien mov o bien location
     let results = []
 
     if (arr[0] && arr[0].hasOwnProperty('move')) {
@@ -33,51 +33,7 @@ const arreglo = (arr) => {
     return results
 }
 
-const evolution = async (evol) => {
-    try {
-        let evoChain = [];
-        let evoData = evol.chain;
-
-        do {
-            let evoDetails = evoData['evolution_details'][0];
-            const apiPokeUrl = await axios.get(
-                "https://pokeapi.co/api/v2/pokemon/" + evoData.species.name
-            );
-
-            let result = {
-                name: evoData.species.name,
-                img: apiPokeUrl.data.sprites.other["official-artwork"].front_default,
-            }
-
-            if (evoDetails) {
-                for (prop in evoDetails) {
-                    if (evoDetails[prop]) {
-                        if (typeof evoDetails[prop] === 'object') {
-                            result[prop] = evoDetails[prop].name
-                        } else {
-                            result[prop] = evoDetails[prop]
-                        }
-                    }
-                    if (prop === 'held_item' && evoDetails[prop]) {
-                        let item = await axios.get(evoDetails[prop].url)
-                        result.itemimg = item.data.sprites.default
-                    }
-                }
-            }
-            evoChain.push(result)
-
-            evoData = evoData['evolves_to'][0];
-        } while (evoData && evoData.hasOwnProperty('evolves_to'));
-
-        return evoChain
-
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
-
-const getApiInfo = async () => {
+const getApiInfo = async () => { // primeros 100 pokemones + detalles
     const apiUrl = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=100");
     const results = apiUrl.data.results
 
@@ -101,7 +57,7 @@ const getApiInfo = async () => {
     return pokemonInfo;
 }
 
-const getDbInfo = async () => {
+const getDbInfo = async () => { //devuelve [] con detales de la db
     const data = (await Pokemon.findAll({
         include: {
             model: Type,
@@ -121,7 +77,7 @@ const getDbInfo = async () => {
     return data
 }
 
-const getAllPokemons = async () => {
+const getAllPokemons = async () => { //combina db y api
     const apiInfo = await getApiInfo();
     const dbInfo = await getDbInfo();
     const infoTotal = [...apiInfo, ...dbInfo];
@@ -129,13 +85,12 @@ const getAllPokemons = async () => {
     return infoTotal;
 }
 
-const getPokeInfo = async (id) => {
+const getPokeInfo = async (id) => { //info de un poke por name
     try {
         const apiPokeUrl = await axios.get("https://pokeapi.co/api/v2/pokemon/" + id);
         const results = apiPokeUrl.data
         const apiPokeSpecie = await axios.get(results.species.url)
         const speciesresult = apiPokeSpecie.data
-        const pokeEvolution = await axios.get(speciesresult['evolution_chain'].url)
 
         const allDescriptions = speciesresult["flavor_text_entries"].filter(el => el.language.name === 'en')
         const speciespok = speciesresult.genera.filter(el => el.language.name === 'en')
@@ -166,8 +121,6 @@ const getPokeInfo = async (id) => {
             happiness: speciesresult['base_happiness'],
             capture: speciesresult['capture_rate'],
 
-            //EVOLUTION
-            evolution: await evolution(pokeEvolution.data)
         }
         console.log(pokemonInfo)
 

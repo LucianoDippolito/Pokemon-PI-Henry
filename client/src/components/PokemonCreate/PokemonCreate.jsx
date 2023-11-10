@@ -6,12 +6,11 @@ import style from './PokemonCreate.module.css'
 import validate from './validate.js';
 import Oak from '../../images/profesor.png'
 
-
 export default function PokemonCreate() {
     const dispatch = useDispatch();
     const types = useSelector(state => state.types)
     const pokemones = useSelector(state => state.allPokemons)
-    const pokemons = pokemones.map(pok => pok.name)
+    const pokemons = pokemones.map(pok => pok.name) // nombres
 
     const [errors, setErrors] = useState({})
     const [section, setSection] = useState(1);
@@ -26,6 +25,7 @@ export default function PokemonCreate() {
         weight: '',
         height: '',
         types: [],
+        createdInDb: true,
     });
 
     const typesColors = {
@@ -54,22 +54,22 @@ export default function PokemonCreate() {
 
     useEffect(() => {
         dispatch(getTypes());
-    }, [dispatch]);
+    }, []);
 
-    function handleChange(e) {
+    function handleChange(e) { // toma nombre del campo --> entrada
         setInput({
             ...input,
             [e.target.name]: e.target.value.replaceAll(/^\s+/g, "").replaceAll(/\s+/g, " ")
         })
 
-        setErrors(validate({
+        setErrors(validate({ //actualiza errors
             ...input,
             [e.target.name]: e.target.value
         }, pokemons))
     }
 
 
-    function handleSection(e) {
+    function handleSection(e) { //seccion depende de errores
         e.preventDefault();
 
         Object.keys(errors).length === 1 && errors.types.length 
@@ -102,9 +102,9 @@ export default function PokemonCreate() {
         }
     };
 
-    function handleSubmit(e) {
+    function handleSubmit(e) { 
         e.preventDefault();
-        if (Object.keys(errors).length === 0 && input.name.length) {
+        if (Object.keys(errors).length === 0 && input.name.length) { 
             dispatch(postPokemon(input));
             dispatch(getPokemons());
             window.alert("Pokemon created successfully!");
@@ -143,7 +143,6 @@ export default function PokemonCreate() {
                                 name="name"
                                 onChange={(e) => handleChange(e)}
                                 style={input.name.length ? errors.name ? { borderColor: '#e74c3c' } : { borderColor: '#2ecc71' } : {}}
-                                // autocomplete="off"
                             />
                             {
                                 errors.name ? (
@@ -289,17 +288,15 @@ export default function PokemonCreate() {
                                         :
                                         <i></i>
                             }
-
                         </div>
                         <button onClick={(e) => { handleSection(e) }}>Next</button>
                     </section>
                     <section className={section === 2 ? style.show : style.hide}>
                         <div style={{ position: 'relative' }}>
                             <span className={style.choosetypes} style={{ display: 'flex', justifyContent: 'flex-start', fontFamily: 'Open Sans' }}>Choose up to 2 Pokemon types</span>
-
                             <div className={style.containertypes}>
                                 {
-                                    types.map(type => (
+                                    types.map(type => ( // label para enlazar
                                         <label for={type.name}>
                                             <div className={style.bytype} >
                                                 <input
@@ -317,7 +314,6 @@ export default function PokemonCreate() {
                                     ))
                                 }
                             </div>
-
                             {
                                 errors.types ? (
                                     <div className={style.typeserror}>
@@ -328,15 +324,11 @@ export default function PokemonCreate() {
                                     <i></i>
                             }
                         </div>
-
                         <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
                             <button className={style.previous} onClick={(e) => { handleSection(e) }}>Previous</button>
                             <button className={style.create} type='submit'>Create</button>
                         </div>
-
                     </section>
-
-
                 </form>
             </div>
 
