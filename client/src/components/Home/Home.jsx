@@ -6,6 +6,7 @@ import Card from '../Card/Card';
 import Paginado from '../Paginado/Paginado';
 import Navbar from '../Navbar/Navbar';
 import style from './Home.module.css';
+import random from '../../images/random.png'
 
 // 1: Importaciones:
 
@@ -51,7 +52,7 @@ export default function Home() {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [allPokemons.length, setCurrentPage]);
+    }, [setCurrentPage]);
 
     function handleClick(e) {
         e.preventDefault();
@@ -131,6 +132,13 @@ export default function Home() {
                         </div>
                 }
             </div>
+            <Paginado
+                pokemonsPerPage={pokemonsPerPage}
+                allPokemons={allPokemons.length}
+                paginado={paginado}
+                page={currentPage}
+            />
+            <br />
         </div>
     )
 }

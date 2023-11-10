@@ -49,7 +49,7 @@ module.exports = (sequelize) => {
         max: 999
       }
     },
-    height:{
+    height: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       validate: {
@@ -57,7 +57,7 @@ module.exports = (sequelize) => {
         max: 999
       }
     },
-    weight:{
+    weight: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       validate: {
@@ -69,7 +69,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
   },
-  {
-    timestamps: false, 
-  });
+    {
+      timestamps: false,
+    });
 };

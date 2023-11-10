@@ -10,7 +10,8 @@ import Oak from '../../images/profesor.png'
 export default function PokemonCreate() {
     const dispatch = useDispatch();
     const types = useSelector(state => state.types)
-    const pokemons = useSelector(state => state.allPokemons.map(pok => pok.name))
+    const pokemones = useSelector(state => state.allPokemons)
+    const pokemons = pokemones.map(pok => pok.name)
 
     const [errors, setErrors] = useState({})
     const [section, setSection] = useState(1);
@@ -103,7 +104,6 @@ export default function PokemonCreate() {
 
     function handleSubmit(e) {
         e.preventDefault();
-
         if (Object.keys(errors).length === 0 && input.name.length) {
             dispatch(postPokemon(input));
             dispatch(getPokemons());
@@ -117,6 +117,7 @@ export default function PokemonCreate() {
                 weight: '',
                 height: '',
                 types: [],
+                createdInDb: true,
             })
         } else {
             window.alert("You must choose at least one type!");
@@ -127,7 +128,7 @@ export default function PokemonCreate() {
     return (
         <div className={style.pagina}>
             <img src={Oak} alt="Profesor Oak" height="560px" className={style.img} />
-            <Link to='/home' className={style.back} style={{ textDecoration: 'none' }}><button>Return home</button></Link>
+            <Link to='/home' className={style.back} style={{ textDecoration: 'none' }}><button>Home</button></Link>
             <div className={style.container}>
                 <div className={style.header}>
                     <h2>Create your pokemon!</h2>
@@ -142,7 +143,7 @@ export default function PokemonCreate() {
                                 name="name"
                                 onChange={(e) => handleChange(e)}
                                 style={input.name.length ? errors.name ? { borderColor: '#e74c3c' } : { borderColor: '#2ecc71' } : {}}
-                                autocomplete="off"
+                                // autocomplete="off"
                             />
                             {
                                 errors.name ? (

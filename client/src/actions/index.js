@@ -14,20 +14,6 @@ export function getPokemons() { // Hace una solicitud GET a http://localhost:300
         }
     }
 }
-// export const functionAllGames =()=>{
-//     const URL = 'http://localhost:3001/videogames'
-//     return async (dispatch)=>{
-//         try {
-//             const {data} = await axios(URL)
-//             return dispatch({
-//                 type: ADD_ALL_GAMES,
-//                 payload:data
-//             })
-//         } catch (error) {
-//             console.error('Error al buscar los juegos:', error)
-//         }
-//     }
-// }
 
 export function getTypes() { // Hace una solicitud GET a http://localhost:3001/types para obtener la lista de tipos de Pokémon.
     return async function (dispatch) {
@@ -65,11 +51,10 @@ export function postPokemon(payload) { // Hace una solicitud POST a http://local
 export function getPokemonName(name) { // Hace una solicitud GET a http://localhost:3001/pokemons?name={name} para obtener los detalles del Pokémon.
     return async function (dispatch) {
         try {
-            const json = await axios.get("http://localhost:3001/pokemons?name=" + name)
 
             return dispatch({ // Despacha una acción con el tipo GET_POKEMON_NAME y los datos del Pokémon buscado como carga útil. 
                 type: "GET_POKEMON_NAME",
-                payload: json.data
+                payload: name
             })
         } catch (error) { // Si no se encuentra el Pokémon, devuelve un array con el nombre "Pokemon".
             console.log(error)
@@ -113,7 +98,7 @@ export function filterCreated(payload) { // Crea una acción con el tipo FILTER_
 
     return {
         type: "FILTER_CREATED",
-        payload
+        payload: payload
     }
 }
 

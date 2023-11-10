@@ -14,5 +14,5 @@ export default function Navbar(){
             <SearchBar />
             <Link to="/pokemons"><button className={style.create}>Create</button></Link>
         </nav>
-      );
+    );
 }

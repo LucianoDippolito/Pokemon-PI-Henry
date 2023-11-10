@@ -52,9 +52,15 @@ function rootReducer (state = initialState, action){
             }
         
         case "GET_POKEMON_NAME":
+            const name = action.payload
+            const resultado = state.allPokemons.filter((element) => {
+                const nombre = element.name;
+                const cantLetras = name.length;
+                return nombre && nombre.substring(0,cantLetras).toLowerCase() === name.substring(0, cantLetras).toLowerCase();
+            });
             return {
                 ...state,
-                pokemons: action.payload
+                pokemons: resultado,
             }    
 
         case "REMOVE_DETAILS":

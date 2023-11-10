@@ -179,9 +179,7 @@ const getPokeInfo = async (id) => {
 
 const getPokeInfoxName = async (name) => {
     try {
-        const apiPokeUrl = await axios.get(
-            "https://pokeapi.co/api/v2/pokemon/" + name
-        );
+        const apiPokeUrl = await axios.get("https://pokeapi.co/api/v2/pokemon/" + name);
         const results = apiPokeUrl.data;
 
         const pokemonInfo = {
