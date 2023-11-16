@@ -59,7 +59,7 @@ export default function PokemonCreate() {
     function handleChange(e) { // toma nombre del campo --> entrada
         setInput({
             ...input,
-            [e.target.name]: e.target.value.replaceAll(/^\s+/g, "").replaceAll(/\s+/g, " ")
+            [e.target.name]: e.target.value.toLowerCase()
         })
 
         setErrors(validate({ //actualiza errors

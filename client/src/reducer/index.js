@@ -116,7 +116,7 @@ function rootReducer (state = initialState, action){
                             return 1;
                         }
                         return 0;
-                    }) 
+                    })
             }
             if(action.payload === 'HAttack'){
                 sortedArray = state.pokemons.sort(function (a, b){

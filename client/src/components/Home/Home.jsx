@@ -29,7 +29,6 @@ export default function Home() {
         dispatch(removeDetail());
         dispatch(getTypes());
         dispatch(getPokemons());
-
     }, [])
 
     useEffect(() => {
@@ -38,6 +37,7 @@ export default function Home() {
 
     function handleClick(e) {
         e.preventDefault();
+        setCurrentPage(1);
         dispatch(reloadPokemons());
     }
 
